@@ -8,11 +8,10 @@ intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 BOT_TOKEN = "YOUR TOKEN HERE"
-GUILD_ID = guild=discord.Object(id=YOUR GUILD ID HERE)
 
 @client.event
 async def on_ready():
-    await tree.sync(GUILD_ID)
+    await tree.sync(guild=discord.Object(id=123456789))
     print("Ready!")
 
 @tree.command(name = "pick", description = "Get a pick from DeviantArt!", guild=discord.Object(id=123456789)) #Add the guild ids in which the slash command will appear. If it should be in all, remove the argument, but note that it will take some time (up to an hour) to register the command if it's for all guilds.
