@@ -1,5 +1,9 @@
 from discord.ext import commands
+from bs4 import BeautifulSoup
 import discord
+import requests
+import random
+import json
 BOT_TOKEN = "YOUR TOKEN HERE"
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
@@ -34,15 +38,19 @@ async def pick(ctx, search_term: str):
 
     if response.status_code == 200:
         access_token = json.loads(response.content.decode('utf-8'))['access_token']
-
-        url = f'https://www.deviantart.com/api/v1/oauth2/browse/popular?q={search_term}&limit=1'
+        url = f'https://www.deviantart.com/api/v1/oauth2/browse/tags/?tag={search_term}&access_token={access_token}'
         headers = {'Authorization': f'Bearer {access_token}', 'User-Agent': 'Mozilla/5.0'}
         response = requests.get(url, headers=headers)
+        print(url)
 
         if response.status_code == 200:
             data = json.loads(response.content.decode('utf-8'))
             if data['has_more']:
+                image_url = random.choice(data['results'])['content']['src']
                 await ctx.send(f'More than one image found for "{search_term}"')
+                await ctx.send(image_url)
+                print(image_url)
+                
             elif len(data['results']) == 0:
                 await ctx.send(f'No images found for "{search_term}"')
             else:
