@@ -13,7 +13,7 @@ async def on_ready():
     print("Bot is ready!")
 
 @bot.hybrid_command()
-@commands.has_role(<MODROLE>)
+@commands.has_role(MODROLE)
 async def echo(ctx, channel: discord.TextChannel, *, message):
     await channel.send(message)
 
@@ -22,7 +22,7 @@ async def luna(ctx):
     await ctx.send("HAIL LUNA")
 
 @bot.command(name='prefix')
-@commands.has_role(<MODROLE>)
+@commands.has_role(MODROLE)
 async def change_prefix(ctx, new_prefix: str):
     bot.command_prefix = new_prefix
     await ctx.send(f'Prefix has been changed to `{new_prefix}`')
